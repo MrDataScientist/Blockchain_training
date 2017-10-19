@@ -16,8 +16,11 @@ contract SimpleWallet is mortal{
 
     function sendFunds(address receiver, uint amountInWei){
         if(myAddressMapping[msg.sender].isAllowed){
-            if(myAdressMapping[msg.sender].maxTransferAmount <= amountInWei){
-                receiver.send(amountInWei);
+            if(myAddressMapping[msg.sender].maxTransferAmount <= amountInWei){
+                bool isTheAmountReallySent = receiver.send(amountInWei);
+                if(!isTheAmountReallySent){
+                    throw;
+                }
             }
         }
     }
